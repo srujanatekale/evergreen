@@ -1,0 +1,27 @@
+.container
+  .row
+    .col-md-offset-4.col-md-4
+      .panel.panel-default
+        .panel-heading 
+          %h4{:style=>"text-align:center;"} Address Information
+        .panel-body
+          = form_tag address_path(@address),id: "editForm",class: "form-horizontal",:method => :put do
+            .form-group
+              = label :address, :street, 'Street:', class: "col-md-2"
+              .col-md-10
+                = text_field :address, 'street',class:"form-control"
+            .form-group
+              = label :address, :city, 'City:', class: "col-md-2"
+              .col-md-10
+                = text_field :address, 'city',class:"form-control"
+            .form-group
+              = label :address, :state, 'State:', class: "col-md-2"
+              .col-md-10
+                = text_field :address, 'state',class:"form-control"
+            .form-group
+              = label :address, :zipcode, 'Zip:', class: "col-md-2"
+              .col-md-10
+                = text_field :address, 'zipcode',class:"form-control"
+            .form-group
+              .col-md-offset-3.col-md-8
+                = submit_tag 'Update address Info',class:"btn btn-default"

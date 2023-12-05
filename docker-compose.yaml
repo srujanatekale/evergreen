@@ -1,0 +1,32 @@
+  version: "3"
+  services:
+    webapp:
+      build: .
+      command: "bundle exec rails s -p 3000 -b '0.0.0.0'"
+      environment:
+        DB_HOST: db
+        DB_USERNAME: postgresUser
+        DB_PASSWORD: example123
+      volumes:
+        - .:/app:cached
+      ports:
+        - "3000:3000"
+      depends_on:
+        - db
+    db:
+      image: postgres
+      container_name: railsapp-postgres
+      command: "postgres -c 'max_connections=500'"
+      environment:
+        POSTGRES_USER: postgresUser
+        POSTGRES_PASSWORD: example123
+      ports: 
+        - "5432:5432"
+      volumes:
+        - railsApp-postgres:/var/lib/postgresql/data
+
+  volumes:
+    railsApp-postgres: {}
+  networks:
+    default:
+      name: railsapp_default

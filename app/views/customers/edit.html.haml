@@ -1,0 +1,65 @@
+.container
+  .row
+    .col-md-offset-4.col-md-4
+      .panel.panel-default
+        .panel-heading 
+          %h4{:style=>"text-align:center;"} Customer Information
+        .panel-body
+          = form_tag customer_path(@customer),id: "editForm", class: "form-horizontal",:method => :put do
+            .form-group
+              = label :customer, :name, 'Name:', class: "col-md-2"
+              .col-md-10
+                = text_field :customer, 'name',class:"form-control"
+            .form-group
+              = label :customer, :contact, 'Contact:', class: "col-md-2"
+              .col-md-10
+                = text_field :customer, 'contact',class:"form-control"
+            .form-group
+              = label :customer,:email, 'Email ID:', class: "col-md-2"
+              .col-md-10
+                = text_field :customer, 'email',class:"form-control"
+            .form-group
+              .col-md-offset-3.col-md-8
+                = submit_tag 'Update Customer Info', class:"btn btn-default"
+.well
+  .row
+    .col-md-offset-4.col-md-4
+      %button#veiwAddresses.btn.btn-primary{:name => "veiwAddresses",:onclick=>"loadTable('/customer/addresses');"} Get Address List
+      %button#veiwOrders.btn.btn-primary{:name => "veiwOrders",:onclick=>"loadTable('/customer/orders');"} Get Order List
+      %button#veiwPayments.btn.btn-primary{:name => "veiwPayments",:onclick=>"loadTable('/customer/payments');"} Get Payment List
+%br
+
+.container
+  %table#tableOutput.table.table-striped.table-bordered{:width=>"100%",:cellspacing=>"0"}
+    %thead
+      %tr
+        %th ID
+.well
+  .row
+    .col-md-offset-5.col-md-4
+      %button#newOrder.btn.btn-primary{:name => "neworder",:onclick=>"newPage('/orders/new');"} Add New order
+      %button#newPayment.btn.btn-primary{:name => "newPayment",:onclick=>"newPage('/payments/new');"} Add New Payment
+
+:javascript
+  function doView(id,tableName)
+  {
+    if (tableName=='orders')
+      window.location.href = '/orders/'+id;
+    if(tableName=='payments')
+      window.location.href = '/payments/'+id+'/edit';
+  }
+  function doDelete(id,tableName)
+  {
+     var urlStr;
+    if (tableName=='orders')
+      urlStr = '/orders/'+id;
+    else if (tableName=='payments')
+      urlStr = '/payments/'+id;
+      $.ajax({
+        url: urlStr,
+        type: 'DELETE',
+        success: function(result) {
+           alert("Message: "+result['message']);
+        }
+    });
+  }
